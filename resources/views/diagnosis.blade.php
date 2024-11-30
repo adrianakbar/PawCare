@@ -63,44 +63,69 @@
     <div id="page-content-wrapper" class="w-100 p-3">
         <!-- Main Dashboard -->
         <div class="container-fluid row">
-
-            <div class="text-end mb-3"><button class="btn buttoncreate" data-bs-toggle="modal"
-                    data-bs-target="#createDiagnosisModal">Create</button></div>
+            <div class="text-end mb-3">
+                <button class="btn buttoncreate" data-bs-toggle="modal" data-bs-target="#createDiagnosisModal">Create</button>
+            </div>
+            
+            @php
+                $displayedTypes = []; // Array untuk menyimpan type hewan yang sudah ditampilkan
+            @endphp
+        
             @foreach ($animal as $animals)
-                <div class="col-4 carddoctor">
-                    <div class="doctor-card" data-bs-toggle="collapse" data-bs-target="#animal{{ $animals->id }}">
-                        <div class="row">
-                            <div class="col-7">
-                                <img src="{{ asset('images/' . $animals->type . '.png') }}"
-                                    alt="{{ $animals->type }}" class="img-fluid" style="width: 30px;">
-                                &nbsp;{{ $animals->type }}
-                            </div>
-                            <div class="col-5 text-end mt-1">
-                                <i class="fa-solid fa-angles-down"></i>
+                @if (!in_array($animals->type, $displayedTypes))
+                    <div class="col-4 carddoctor">
+                        <div class="doctor-card" data-bs-toggle="collapse" data-bs-target="#animal{{ $animals->id }}">
+                            <div class="row">
+                                <div class="col-7">
+                                    <img src="{{ asset('images/' . $animals->type . '.png') }}"
+                                        alt="{{ $animals->type }}" class="img-fluid" style="width: 30px;">
+                                    &nbsp;{{ $animals->type }}
+                                </div>
+                                <div class="col-5 text-end mt-1">
+                                    <i class="fa-solid fa-angles-down"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="animal{{ $animals->id }}" class="collapse">
-                        @foreach ($animals->diagnoses as $diagnosis)
-                            <div class="collapse-item row">
-                                <div class="col-1">
-                                    <div class="iconanimal">
-                                        <img src="{{ asset('images/' . $diagnosis->animal->type . '.png') }}"
-                                            class="animal-icon">
+                        <div id="animal{{ $animals->id }}" class="collapse">
+                            @foreach ($animal->where('type', $animals->type) as $sameTypeAnimal)
+                                @foreach ($sameTypeAnimal->diagnoses as $diagnosis)
+                                    <div class="collapse-item row">
+                                        <div class="col-1">
+                                            <div class="iconanimal">
+                                                <img src="{{ asset('images/' . $diagnosis->animal->type . '.png') }}"
+                                                    class="animal-icon">
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="namedateanimal">
+                                                <div class="nameanimal">{{ $diagnosis->animal->name }}</div>
+                                                <div>{{ $diagnosis->diagnosis }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <form id="delete-form-{{ $diagnosis->id }}" 
+                                                  action="{{ route('diagnoses.delete', $diagnosis->id) }}" 
+                                                  method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" 
+                                                        onclick="confirmDelete({{ $diagnosis->id }})" 
+                                                        class="btn btn-link icondelete mt-1 p-0">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-9">
-                                    <div class="namedateanimal">
-                                        <div class="nameanimal">{{ $diagnosis->animal->name }}</div>
-                                        <div>{{ $diagnosis->diagnosis }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                                @endforeach
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+        
+                    @php
+                        $displayedTypes[] = $animals->type; // Tambahkan type ke array yang sudah ditampilkan
+                    @endphp
+                @endif
             @endforeach
-
         </div>
 
         <!-- Modal -->
@@ -120,9 +145,17 @@
                                     <label for="updateAnimalType" class="form-label">Type</label>
                                     <select class="form-select" id="updateAnimalType" name="type" required>
                                         <option value="" disabled selected>Select Type</option>
+                                        @php
+                                            $displayedTypesModal = []; // Array untuk menyimpan type hewan yang sudah ditampilkan
+                                        @endphp
                                         @foreach ($animal as $animals)
-                                            <option value="{{ $animals->type }}">{{ $animals->type }}</option>
-                                            @endforeach
+                                            @if (!in_array($animals->type, $displayedTypesModal))
+                                                <option value="{{ $animals->type }}">{{ $animals->type }}</option>
+                                                @php
+                                                    $displayedTypesModal[] = $animals->type; // Tambahkan type ke array yang sudah ditampilkan
+                                                @endphp
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-8">

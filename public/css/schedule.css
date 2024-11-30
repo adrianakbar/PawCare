@@ -203,3 +203,20 @@ body {
     background: #3085d6;
     color: #fff;
 }
+
+.icondelete {
+    border-radius: 5px;
+    width: 35px;
+    height: 40px;
+    border: none;
+    transition: 0.4s;
+    background: #ececec;
+
+    .fa-trash {
+        color: red;
+    }
+}
+
+.icondelete:hover {
+    background-color: #3085d6;
+}

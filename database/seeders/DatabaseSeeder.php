@@ -76,13 +76,11 @@ class DatabaseSeeder extends Seeder
         // Seed diagnoses
         Diagnosis::create([
             'animal_id' => $animal1->id,
-            'doctor_id' => $doctor1->id,
             'diagnosis' => 'Mild skin allergy',
         ]);
 
         Diagnosis::create([
             'animal_id' => $animal2->id,
-            'doctor_id' => $doctor2->id,
             'diagnosis' => 'Nutritional deficiency',
         ]);
     }

@@ -77,7 +77,6 @@ return new class extends Migration
         Schema::create('diagnoses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('animal_id')->constrained('animals')->onDelete('cascade');
-            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
             $table->text('diagnosis');
             $table->timestamps();
         });
@@ -89,7 +88,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('appointments');
         Schema::dropIfExists('diagnoses');
         Schema::dropIfExists('schedules');
         Schema::dropIfExists('doctors');

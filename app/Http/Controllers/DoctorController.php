@@ -48,8 +48,7 @@ class DoctorController
 
     public function delete($id)
     {
-        $doctor = Doctor::findOrFail($id);
-        $doctor->delete();
+        Doctor::destroy($id);
 
         return redirect()->back()->with('success', 'Doctor deleted successfully');
     }

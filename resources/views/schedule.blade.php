@@ -133,9 +133,17 @@
                                     <label for="updateAnimalType" class="form-label">Type</label>
                                     <select class="form-select" id="updateAnimalType" name="type" required>
                                         <option value="" disabled selected>Select Type</option>
+                                        @php
+                                            $displayedTypesModal = []; // Array untuk menyimpan type hewan yang sudah ditampilkan
+                                        @endphp
                                         @foreach ($animal as $animals)
-                                            <option value="{{ $animals->type }}">{{ $animals->type }}</option>
-                                            @endforeach
+                                            @if (!in_array($animals->type, $displayedTypesModal))
+                                                <option value="{{ $animals->type }}">{{ $animals->type }}</option>
+                                                @php
+                                                    $displayedTypesModal[] = $animals->type; // Tambahkan type ke array yang sudah ditampilkan
+                                                @endphp
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-8">

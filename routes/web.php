@@ -30,6 +30,8 @@ Route::post('/update-schedule-status', [ScheduleController::class, 'updateStatus
 Route::post('/schedule', [ScheduleController::class, 'create']);
 
 Route::get('/diagnosis', [DiagnosisController::class, 'view']);
+Route::post('/diagnosis', [DiagnosisController::class, 'create']);
+Route::delete('/diagnosis/{id}', [DiagnosisController::class, 'delete'])->name('diagnoses.delete');
 
 
 

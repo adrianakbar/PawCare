@@ -11,19 +11,11 @@ class Diagnosis extends Model
 
     protected $fillable = [
         'animal_id',
-        'doctor_id',
         'diagnosis',
-        'treatment',
-        'date',
     ];
 
     public function animal()
     {
-        return $this->belongsTo(Animal::class);
-    }
-
-    public function doctor()
-    {
-        return $this->belongsTo(Doctor::class);
+        return $this->belongsTo(Animal::class);  // Pastikan menggunakan foreign key yang sesuai
     }
 }

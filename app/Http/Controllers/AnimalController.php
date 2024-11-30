@@ -50,8 +50,7 @@ class AnimalController
 
     public function delete($id)
     {
-        $animal = Animal::findOrFail($id);
-        $animal->delete();
+        Animal::destroy($id);
 
         return redirect()->back()->with('success', 'Animal deleted successfully');
     }
