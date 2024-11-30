@@ -64,7 +64,6 @@ class DatabaseSeeder extends Seeder
             'animal_id' => $animal1->id,
             'date' => now()->addDays(1)->toDateString(),
             'time' => '10:00:00',
-            'status' => '0',
         ]);
 
         Schedule::create([
@@ -72,7 +71,6 @@ class DatabaseSeeder extends Seeder
             'animal_id' => $animal2->id,
             'date' => now()->addDays(2)->toDateString(),
             'time' => '14:00:00',
-            'status' => '0',
         ]);
 
         // Seed diagnoses
@@ -80,33 +78,12 @@ class DatabaseSeeder extends Seeder
             'animal_id' => $animal1->id,
             'doctor_id' => $doctor1->id,
             'diagnosis' => 'Mild skin allergy',
-            'treatment' => 'Antihistamine medication for 2 weeks',
-            'date' => now()->toDateString(),
         ]);
 
         Diagnosis::create([
             'animal_id' => $animal2->id,
             'doctor_id' => $doctor2->id,
             'diagnosis' => 'Nutritional deficiency',
-            'treatment' => 'High-protein diet and supplements',
-            'date' => now()->toDateString(),
-        ]);
-
-        // Seed appointments
-        Appointment::create([
-            'animal_id' => $animal1->id,
-            'doctor_id' => $doctor1->id,
-            'date' => now()->addDays(1)->toDateString(),
-            'time' => '10:00:00',
-            'status' => 'Scheduled',
-        ]);
-
-        Appointment::create([
-            'animal_id' => $animal2->id,
-            'doctor_id' => $doctor2->id,
-            'date' => now()->addDays(2)->toDateString(),
-            'time' => '14:00:00',
-            'status' => 'Scheduled',
         ]);
     }
 }

@@ -1,3 +1,34 @@
+const toggleButton = document.getElementById("toggle-btn");
+const sidebar = document.getElementById("sidebar");
+
+function toggleSidebar() {
+    sidebar.classList.toggle("close");
+    toggleButton.classList.toggle("rotate");
+
+    closeAllSubMenus();
+}
+
+function toggleSubMenu(button) {
+    if (!button.nextElementSibling.classList.contains("show")) {
+        closeAllSubMenus();
+    }
+
+    button.nextElementSibling.classList.toggle("show");
+    button.classList.toggle("rotate");
+
+    if (sidebar.classList.contains("close")) {
+        sidebar.classList.toggle("close");
+        toggleButton.classList.toggle("rotate");
+    }
+}
+
+function closeAllSubMenus() {
+    Array.from(sidebar.getElementsByClassName("show")).forEach((ul) => {
+        ul.classList.remove("show");
+        ul.previousElementSibling.classList.remove("rotate");
+    });
+}
+
 function confirmDelete(id) {
     Swal.fire({
         title: "Are you sure?",
@@ -64,3 +95,42 @@ function showUpdateModalDoctor(id) {
     // Atur action form update sesuai dengan ID dokter
     document.getElementById("updateDoctorForm").action = `/doctor/${id}`;
 }
+
+document.querySelectorAll(".checkbox").forEach((checkbox) => {
+    checkbox.addEventListener("change", function () {
+        const scheduleId = this.dataset.id; // Ambil ID dari atribut data-id
+        const status = this.checked ? 1 : 0; // Ambil status baru dari checkbox
+
+        // Kirim request ke server
+        fetch(`/update-schedule-status`, {
+            method: "POST", // Gunakan POST atau PUT sesuai API Anda
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": document.querySelector(
+                    'meta[name="csrf-token"]'
+                ).content,
+            },
+            body: JSON.stringify({ id: scheduleId, status: status }), // Kirim data ID dan status
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const typeSelect = document.getElementById("updateAnimalType");
+    const nameSelect = document.getElementById("updateAnimalName");
+
+    typeSelect.addEventListener("change", () => {
+        const selectedType = typeSelect.value;
+
+        // Reset name options
+        Array.from(nameSelect.options).forEach((option) => {
+            if (option.dataset.type) {
+                option.style.display =
+                    option.dataset.type === selectedType ? "" : "none";
+            }
+        });
+
+        // Reset selected name
+        nameSelect.value = "";
+    });
+});

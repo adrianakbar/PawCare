@@ -139,6 +139,10 @@ body {
     cursor: pointer;
 }
 
+.carddoctor {
+    margin-bottom: 3%;
+}
+
 .collapse-item {
     padding: 5px;
     background-color: #ffffff;
@@ -149,4 +153,53 @@ body {
 
 .animal-icon {
     width: 25px;
+}
+
+.iconanimal {
+    margin-left: -7px;
+    margin-top: 10px;
+}
+
+.namedateanimal {
+    margin-left: 5px;
+}
+
+.nameanimal {
+    color: black;
+    font-weight: 500;
+}
+
+.checkbox {
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.buttoncreate {
+    border: none;
+    outline: none;
+    height: 40px;
+    width: 10%;
+    background: #a09b9b;
+    border-radius: 15px;
+    transition: 0.4s;
+}
+
+.buttoncreate:hover {
+    background: black;
+    color: #fff;
+}
+
+.buttonsave {
+    border: none;
+    outline: none;
+    height: 40px;
+    width: 50%;
+    background: #ececec;
+    border-radius: 15px;
+    transition: 0.4s;
+}
+
+.buttonsave:hover {
+    background: #3085d6;
+    color: #fff;
 }

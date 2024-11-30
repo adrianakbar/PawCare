@@ -69,7 +69,7 @@ return new class extends Migration
             $table->foreignId('animal_id')->constrained('animals')->onDelete('cascade');
             $table->date('date');
             $table->time('time');
-            $table->string('status');
+            $table->string('status')->default('0');
             $table->timestamps();
         });
 
@@ -79,19 +79,6 @@ return new class extends Migration
             $table->foreignId('animal_id')->constrained('animals')->onDelete('cascade');
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
             $table->text('diagnosis');
-            $table->text('treatment')->nullable();
-            $table->date('date');
-            $table->timestamps();
-        });
-
-        // Appointments table
-        Schema::create('appointments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('animal_id')->constrained('animals')->onDelete('cascade');
-            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
-            $table->date('date');
-            $table->time('time');
-            $table->string('status')->default('Scheduled');
             $table->timestamps();
         });
     }

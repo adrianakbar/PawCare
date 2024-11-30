@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/schedule.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="icon" href="images/websiteicon.png">
-    <title>Schedule</title>
+    <title>Diagnosis</title>
 </head>
 
 <body>
@@ -39,13 +39,13 @@
                     <span>&nbsp;Doctor</span>
                 </a>
             </li>
-            <li class="active">
+            <li class="">
                 <a href="/schedule">
                     <i class="fa-solid fa-calendar-days"></i>
                     <span>&nbsp;Schedule</span>
                 </a>
             </li>
-            <li>
+            <li class="active">
                 <a href="/diagnosis">
                     <i class="fa-solid fa-stethoscope"></i>
                     <span>Diagnosis</span>
@@ -65,39 +65,35 @@
         <div class="container-fluid row">
 
             <div class="text-end mb-3"><button class="btn buttoncreate" data-bs-toggle="modal"
-                    data-bs-target="#createScheduleModal">Create</button></div>
-            @foreach ($doctor as $doctors)
+                    data-bs-target="#createDiagnosisModal">Create</button></div>
+            @foreach ($animal as $animals)
                 <div class="col-4 carddoctor">
-                    <div class="doctor-card" data-bs-toggle="collapse" data-bs-target="#doctor{{ $doctors->id }}">
+                    <div class="doctor-card" data-bs-toggle="collapse" data-bs-target="#animal{{ $animals->id }}">
                         <div class="row">
                             <div class="col-7">
-                                <img src="{{ asset('images/' . $doctors->gender . 'doctor.png') }}"
-                                    alt="{{ $doctors->gender }}" class="img-fluid" style="width: 30px;">
-                                &nbsp;{{ $doctors->name }}
+                                <img src="{{ asset('images/' . $animals->type . '.png') }}"
+                                    alt="{{ $animals->type }}" class="img-fluid" style="width: 30px;">
+                                &nbsp;{{ $animals->type }}
                             </div>
                             <div class="col-5 text-end mt-1">
                                 <i class="fa-solid fa-angles-down"></i>
                             </div>
                         </div>
                     </div>
-                    <div id="doctor{{ $doctors->id }}" class="collapse">
-                        @foreach ($doctors->schedules as $schedule)
+                    <div id="animal{{ $animals->id }}" class="collapse">
+                        @foreach ($animals->diagnoses as $diagnosis)
                             <div class="collapse-item row">
                                 <div class="col-1">
                                     <div class="iconanimal">
-                                        <img src="{{ asset('images/' . $schedule->animal->type . '.png') }}"
+                                        <img src="{{ asset('images/' . $diagnosis->animal->type . '.png') }}"
                                             class="animal-icon">
                                     </div>
                                 </div>
                                 <div class="col-9">
                                     <div class="namedateanimal">
-                                        <div class="nameanimal">{{ $schedule->animal->name }}</div>
-                                        <div>{{ $schedule->date }}, {{ $schedule->time }}</div>
+                                        <div class="nameanimal">{{ $diagnosis->animal->name }}</div>
+                                        <div>{{ $diagnosis->diagnosis }}</div>
                                     </div>
-                                </div>
-                                <div class="col-2">
-                                    <input class="form-check-input checkbox" type="checkbox"
-                                        data-id="{{ $schedule->id }}" @if ($schedule->status == '1') checked @endif>
                                 </div>
                             </div>
                         @endforeach
@@ -108,26 +104,17 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="createScheduleModal" tabindex="-1" aria-labelledby="createScheduleModalLabel"
+        <div class="modal fade" id="createDiagnosisModal" tabindex="-1" aria-labelledby="createDiagnosisModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createScheduleModalLabel">Create Schedule</h5>
+                        <h5 class="modal-title" id="createDiagnosisModalLabel">Create Diagnosis</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/schedule" method="POST">
+                        <form action="/diagnosis" method="POST">
                             @csrf
-                            <div class="mb-3">
-                                <label for="updateDoctor" class="form-label">Doctor</label>
-                                <select class="form-select" id="updateDoctor" name="doctor" required>
-                                    <option value="" disabled selected>Select Doctor</option>
-                                    @foreach ($doctor as $doctors)
-                                        <option value="{{ $doctors->id }}">{{ $doctors->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="row mb-3">
                                 <div class="col-4">
                                     <label for="updateAnimalType" class="form-label">Type</label>
@@ -149,13 +136,10 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="updateDate" class="form-label">Date</label>
-                                <input type="date" class="form-control" id="updateDate" name="date" required>
-                            </div>
                             <div class="mb-4">
-                                <label for="updateTime" class="form-label">Time</label>
-                                <input type="time" class="form-control" id="updateTime" name="time" required>
+                                <label for="updateDiagnosis" class="form-label">Diagnosis</label>
+                                <input type="text" class="form-control" id="updateDiagnosis" name="diagnosis"
+                                    required>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn buttonsave">Save</button>

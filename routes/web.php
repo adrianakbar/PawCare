@@ -4,6 +4,7 @@ use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\DiagnosisController;
 use App\Models\Animal;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,10 @@ Route::delete('/doctor/{id}', [DoctorController::class, 'delete'])->name('doctor
 Route::put('/doctor/{id}', [DoctorController::class, 'update']);
 
 Route::get('/schedule', [ScheduleController::class, 'view']);
+Route::post('/update-schedule-status', [ScheduleController::class, 'updateStatus']);
+Route::post('/schedule', [ScheduleController::class, 'create']);
+
+Route::get('/diagnosis', [DiagnosisController::class, 'view']);
 
 
 

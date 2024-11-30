@@ -14,39 +14,50 @@ class ScheduleController
     {
         // Get all animals
         $doctor = Doctor::all();
+        $animal = Animal::all();
 
-        return view('schedule', compact('doctor'));
+        return view('schedule', compact('doctor', 'animal'));
     }
 
     public function create(Request $request)
     {
-        // Validate input data
-        $validatedData = $request->validate([
+        // Validasi data input
+        $request->validate([
+            'doctor' => 'required',
             'name' => 'required',
-            'gender' => 'required',
-            'specialization' => 'required',
-            'contact' => 'required',
+            'type' => 'required',
+            'date' => 'required',
+            'time' => 'required',
         ]);
 
-        // Create a new doctor
-        $docotr = Doctor::create($validatedData);
+        // Cari animal_id berdasarkan nama dan tipe
+        $animal = Animal::where('name', $request->name)
+            ->where('type', $request->type)
+            ->first();
 
-        return redirect()->back()->with('success', 'Doctor created successfully');
+        if (!$animal) {
+            return redirect()->back()->with('error', 'Animal not found.');
+        }
+
+        // Simpan data ke tabel schedule
+        Schedule::create([
+            'doctor_id' => $request->doctor,
+            'animal_id' => $animal->id,
+            'date' => $request->date,
+            'time' => $request->time,
+            'status' => 0, // Default value
+        ]);
+
+        // Redirect dengan pesan sukses
+        return redirect()->back()->with('success', 'Schedule created successfully.');
     }
 
-    public function update(Request $request, $id)
+    public function updateStatus(Request $request)
     {
-        $doctor = Doctor::findOrFail($id);
-        $doctor->update($request->all());
-
-        return redirect()->back()->with('success', 'Doctor updated successfully');
-    }
-
-    public function delete($id)
-    {
-        $doctor = Doctor::findOrFail($id);
-        $doctor->delete();
-
-        return redirect()->back()->with('success', 'Doctor deleted successfully');
+        $schedule = Schedule::find($request->id);
+        if ($schedule) {
+            $schedule->status = $request->status;
+            $schedule->save();
+        }
     }
 }
