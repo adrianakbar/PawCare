@@ -80,6 +80,17 @@ return new class extends Migration
             $table->text('diagnosis');
             $table->timestamps();
         });
+
+        Schema::create('method_performances', function (Blueprint $table) {
+            $table->id();
+            $table->string('controller_name');
+            $table->string('method_name');
+            $table->integer('total_calls')->default(0);
+            $table->float('avg_execution_time')->default(0);
+            $table->integer('memory_usage')->default(0);
+            $table->timestamp('last_called_at')->nullable();
+            $table->timestamps();
+        });
     }
 
 
@@ -88,6 +99,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('method_performances');
         Schema::dropIfExists('diagnoses');
         Schema::dropIfExists('schedules');
         Schema::dropIfExists('doctors');

@@ -52,6 +52,12 @@
                 </a>
             </li>
             <li>
+                <a href="/graph">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>&nbsp;Graph</span>
+                </a>
+            </li>
+            <li>
                 <a href="/logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>&nbsp;Logout</span>
